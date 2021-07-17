@@ -1,0 +1,4 @@
+geo_django_proj/.env
+__pycache__
+db.sqlite3
+geo_db
