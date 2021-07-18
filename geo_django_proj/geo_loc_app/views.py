@@ -29,7 +29,11 @@ class HomeView(View):
 
             loc_list.append({
                 "type": "Feature",
-                "properties": {"color": color},
+                "properties": {
+                    "color": color,
+                    "description": weather.short_description,
+                    "icon_url": weather.icon_url
+                },
                 "geometry": {
                     "type": "Polygon",
                     "coordinates": [c_lst]

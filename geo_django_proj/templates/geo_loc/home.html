@@ -4,6 +4,11 @@
     <head>
         {% leaflet_js %}
         {% leaflet_css %}
+        <style>
+            #detailmap{
+                height: 100% !important;
+            }
+        </style>
     </head>
     <body>
     {% block content %}
@@ -12,39 +17,8 @@
     <script>
         window.addEventListener("map:init", function (e) {
             var detail = e.detail;
-          //  detail.map.setView([10, 10], 7);
-          //console.log({{loc_list}});
-          //var a = [[-104.806796, 40.0808559], [-104.806796, 40.0808559, -104.8047162, 40.058889300000004, -104.7759748, 40.060480600000005, -104.7780485, 40.08244740000001, -104.806796, 40.0808559]]
+            detail.map.setView(new L.LatLng(40.737, -73.923), 4);
 
-
-            var states = [{
-                "type": "Feature",
-                "properties": {"party": "Republican"},
-                "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [[
-                        [-104.05, 48.99],
-                        [-97.22,  48.98],
-                        [-96.58,  45.94],
-                        [-104.03, 45.94],
-                        [-104.05, 48.99]
-                    ]]
-                }
-            }, {
-                "type": "Feature",
-                "properties": {"party": "Democrat"},
-                "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [[
-                        [-109.05, 41.00],
-                        [-102.06, 40.99],
-                        [-102.03, 36.99],
-                        [-109.04, 36.99],
-                        [-109.05, 41.00]
-                    ]]
-                }
-            }];
-            console.log({{loc_list|safe}})
             L.geoJSON({{loc_list|safe}}, {
                 style: function(feature) {
                     switch (feature.properties.color) {
@@ -52,6 +26,9 @@
                         case 'orange':   return {color: "orange"};
                         case 'green':   return {color: "green"};
                     }
+                },
+                onEachFeature: function(feature, layer){
+                    layer.bindTooltip("<img src='" + feature.properties.icon_url +"' /><br/>" + feature.properties.description);
                 }
             }).addTo(detail.map);
         }, false);
